@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [removed]
 // @version      0.1
-// @author			 Humzaman
+// @author       Humzaman
 // @include      /https?://(www|old|np)\.reddit\.com.*/
 // @require      https://cdn.jsdelivr.net/npm/snuownd
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
