@@ -48,7 +48,7 @@ function fetchData(commentObj) {
   
   let tagline = commentObj.getElementsByClassName('tagline')[0];
   let usertextbody = commentObj.getElementsByClassName('usertext-body')[0];
-  $(usertextbody).toggleClass('loading-bar', 500, "linear");
+  $(usertextbody).toggleClass('loading-bar');
 
   fetch(pushshiftUrl)
   .then((response) => {
