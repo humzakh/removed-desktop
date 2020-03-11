@@ -21,9 +21,7 @@ document.getElementsByTagName('head')[0].appendChild(loaderStyle);
 $(document).arrive('.deleted.comment', function() { addMagicLink(this); } );
 
 var deletedComments = document.querySelectorAll('.deleted.comment');
-for (let i = 0; i < deletedComments.length; i++) {    
-  addMagicLink(deletedComments[i]);
-}
+for (let i = 0; i < deletedComments.length; i++) { addMagicLink(deletedComments[i]); }
 
 // add unremove link to deleted comments
 function addMagicLink(commentObj) { 
