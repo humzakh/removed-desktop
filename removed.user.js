@@ -17,7 +17,7 @@ document.getElementsByTagName('head')[0].appendChild(loaderStyle);
 const unremoveColor = '#952d2d';
 
 window.addEventListener('load', function() { main(); } );
-$(document).arrive(".deleted.comment", function() { addMagicLink(this); }); // listen for new comments (RES neverEndingComments)
+$(document).arrive(".deleted.comment", function() { addMagicLink(this); } ); // listen for new comments (RES neverEndingComments)
 
 function main() {
   var deletedComments = document.querySelectorAll('.deleted.comment');
