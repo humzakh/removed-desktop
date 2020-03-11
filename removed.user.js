@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         [removed]
-// @version      0.3
 // @author       Humzaman
+// @version      0.3
+// @description  A userscript to view [removed] and [deleted] comments on reddit.
+// @icon         https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png
 // @include      /https?://(www|old|np)\.reddit\.com/r/.*/comments.*/
-// @require      https://cdn.jsdelivr.net/npm/snuownd
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @require      https://raw.githubusercontent.com/uzairfarooq/arrive/master/minified/arrive.min.js
+// @require      https://cdn.jsdelivr.net/npm/snuownd
 // @grant        none
 // ==/UserScript==
 
