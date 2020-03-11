@@ -1,5 +1,5 @@
 # [removed] for desktop
-A Greasemonkey script to view [removed] and [deleted] comments on reddit.
+A user script to view [removed] and [deleted] comments on reddit.
 
 Unremoves comments using archived data from pushshift.io, and displays the comment inline.
 
