@@ -1,5 +1,5 @@
 # [removed] for desktop
-A user script to view [removed] and [deleted] comments on reddit.
+A userscript to view [removed] and [deleted] comments on reddit.
 
 Unremoves comments using archived data from pushshift.io, and displays the comment inline.
 
