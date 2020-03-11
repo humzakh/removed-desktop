@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         [removed]
-// @version      0.2
+// @version      0.3
 // @author       Humzaman
 // @include      /https?://(www|old|np)\.reddit\.com/r/.*/comments.*/
 // @require      https://cdn.jsdelivr.net/npm/snuownd
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @require      https://raw.githubusercontent.com/uzairfarooq/arrive/master/minified/arrive.min.js
 // @grant        none
 // ==/UserScript==
 
@@ -16,6 +17,7 @@ document.getElementsByTagName('head')[0].appendChild(loaderStyle);
 const unremoveColor = '#952d2d';
 
 window.addEventListener('load', function() { main(); }, false);
+$(document).arrive(".deleted.comment", function() { neverEndingComments(this); });
 
 function main() {
   var deletedComments = document.querySelectorAll('.deleted.comment');
@@ -29,7 +31,7 @@ function main() {
       a.setAttribute('class', 'unremove_a');
       a.textContent = 'unremove';
       a.setAttribute('href', 'javascript:void(0)');
-      a.onclick = function(f) { return function() {fetchData(f); }; }(commentObj);
+      a.onclick = function(f) { return function() { fetchData(f); }; }(commentObj);
       a.style.color = unremoveColor;
   
       let li = document.createElement('li');
@@ -110,4 +112,24 @@ function fetchData(commentObj) {
     usertextbody.appendChild(div);
     $(div).hide().fadeIn(500);
   });
+}
+
+function neverEndingComments(commentObj) {
+    let ul = commentObj.getElementsByClassName('flat-list buttons')[0];
+
+    if (!ul.classList.contains('unremove_li')) {
+      let a = document.createElement("a");
+      a.setAttribute('class', 'unremove_a');
+      a.textContent = 'unremove';
+      a.setAttribute('href', 'javascript:void(0)');
+      a.onclick = function(f) { return function() { fetchData(f); }; }(commentObj);
+      a.style.color = unremoveColor;
+  
+      let li = document.createElement('li');
+      li.setAttribute('class', 'unremove_li');
+      li.onclick = function(r) { if (this.style.display === "none") { this.style.display = "block"; } else { this.style.display = "none"; } };
+      li.appendChild(a);
+      ul.appendChild(li);
+      $(li).hide().fadeIn(500);
+    }
 }
