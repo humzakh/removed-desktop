@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [removed]
 // @author       Humzaman
-// @version      0.3.3
+// @version      0.3.4
 // @description  View [removed] and [deleted] comments on reddit.
 // @icon         https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png
 // @downloadURL  https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js
