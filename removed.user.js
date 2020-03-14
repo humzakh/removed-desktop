@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [removed]
 // @author       Humzaman
-// @version      0.3.2
+// @version      0.3.3
 // @description  View [removed] and [deleted] comments on reddit.
 // @icon         https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png
 // @downloadURL  https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js
@@ -35,12 +35,11 @@ function addMagicLink(commentObj) {
     a.setAttribute('class', 'unremove_a');
     a.textContent = 'unremove';
     a.setAttribute('href', 'javascript:void(0)');
-    a.onclick = function(f) { return function() { fetchData(f); }; }(commentObj);
+    a.onclick = function(f) { return function() { if (this.style.display === 'none') { this.style.display = 'block'; } else { this.style.display = 'none'; }; fetchData(f); }; }(commentObj);
     a.style.color = unremoveColor;
   
     let li = document.createElement('li');
     li.setAttribute('class', 'unremove_li');
-    li.onclick = function(r) { if (this.style.display === 'none') { this.style.display = 'block'; } else { this.style.display = 'none'; } };
     li.appendChild(a);
     ul.appendChild(li);
     $(li).hide().fadeIn(500);
