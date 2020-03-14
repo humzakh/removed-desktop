@@ -35,11 +35,11 @@ function addMagicLink(commentObj) {
     a.setAttribute('class', 'unremove_a');
     a.textContent = 'unremove';
     a.setAttribute('href', 'javascript:void(0)');
-    a.onclick = function(f) { return function() { if (this.style.display === 'none') { this.style.display = 'block'; } else { this.style.display = 'none'; }; fetchData(f); }; }(commentObj);
     a.style.color = unremoveColor;
   
     let li = document.createElement('li');
     li.setAttribute('class', 'unremove_li');
+    li.onclick = function(f) { return function() { if (this.style.display === 'none') { this.style.display = 'block'; } else { this.style.display = 'none'; }; fetchData(f); }; }(commentObj);
     li.appendChild(a);
     ul.appendChild(li);
     $(li).hide().fadeIn(500);
