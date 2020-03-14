@@ -1,9 +1,11 @@
 // ==UserScript==
 // @name         [removed]
 // @author       Humzaman
-// @version      0.3.1
-// @description  A userscript to view [removed] and [deleted] comments on reddit.
+// @version      0.3.2
+// @description  View [removed] and [deleted] comments on reddit.
 // @icon         https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png
+// @downloadURL  https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js
+// @homepageURL  https://github.com/Humzaman/removed-desktop
 // @include      /https?://(www|old|np)\.reddit\.com/r/.*/comments.*/
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @require      https://raw.githubusercontent.com/uzairfarooq/arrive/master/minified/arrive.min.js
@@ -107,7 +109,7 @@ function fetchData(commentObj) {
     let p = usertextbody.getElementsByTagName('p')[0];
     p.innerHTML = SnuOwnd.getParser().render('~~'.concat(p.innerHTML).concat('~~'));
 
-    let bodytext = document.createTextNode('[no data found]');
+    let bodytext = document.createTextNode('[no archived data found]');
     let div = document.createElement('div');
     div.className = 'md';
     div.appendChild(bodytext);
