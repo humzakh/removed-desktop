@@ -1,4 +1,4 @@
-# [removed] for desktop
+# [removed] for desktop <img src="https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png" width="90px" align="left">
 A userscript to view [removed] and [deleted] comments on reddit.
 
 Unremoves comments using archived data from pushshift.io, and displays the comment inline.
