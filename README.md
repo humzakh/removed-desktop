@@ -3,7 +3,7 @@ A userscript to view [removed] and [deleted] comments on reddit.
 
 Unremoves comments using archived data from pushshift.io, and displays the comment inline.
 
-## Screenshots:
+### Screenshots:
 **[removed] and [deleted] comments now have a handy "unremove" link**
 
 <img width="678" alt="Screen Shot 2020-03-13 at 11 29 32 PM" src="https://user-images.githubusercontent.com/13255511/76674970-ddd37c80-6582-11ea-998a-fe7311629600.png">
@@ -17,7 +17,7 @@ Unremoves comments using archived data from pushshift.io, and displays the comme
 
 <img width="678" alt="Screen Shot 2020-03-13 at 11 30 15 PM" src="https://user-images.githubusercontent.com/13255511/76674979-fcd20e80-6582-11ea-9481-de2c3a1c06ea.png">
 
-##### Notes:
+#### Notes:
 * Currently only works with the old (and superior) reddit design.
 * Tested and works pretty well in Firefox
   - I don't use Chrome so idk if there any issues with it
