@@ -3,6 +3,8 @@ A userscript to view [removed] and [deleted] comments on reddit.
 
 Unremoves comments using archived data from pushshift.io, and displays the comment inline.
 
+<a href="https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js">Direct link to script</a>
+
 ## Screenshots:
 **[removed] and [deleted] comments now have a handy "unremove" link**
 
