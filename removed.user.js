@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [removed]
 // @author       Humzaman
-// @version      0.3.4
+// @version      0.3.5
 // @description  View [removed] and [deleted] comments on reddit.
 // @icon         https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png
 // @downloadURL  https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js
@@ -39,7 +39,7 @@ function addMagicLink(commentObj) {
   
     let li = document.createElement('li');
     li.setAttribute('class', 'unremove_li');
-    li.onclick = function(f) { return function() { if (this.style.display === 'none') { this.style.display = 'block'; } else { this.style.display = 'none'; }; fetchData(f); }; }(commentObj);
+    li.onclick = function(f) { return function() { this.style.display = 'none'; fetchData(f); }; }(commentObj);
     li.appendChild(a);
     ul.appendChild(li);
     $(li).hide().fadeIn(500);
@@ -80,17 +80,19 @@ function fetchData(commentObj) {
         $(div).hide().fadeIn(500);
       }
       else { 
+      	let em = tagline.querySelector('em'); // username text that says [deleted]
+      	let span = document.createElement('span');
+        span.className = 'userattrs';
+        tagline.insertBefore(span, em.nextSibling);
+
         let username = document.createElement('a');
         username.textContent = parsedData.author;
         username.setAttribute('href', 'https://www.reddit.com/user/'.concat(parsedData.author));
         username.style.fontWeight = 'bold';
         username.style.color = unremoveColor;
         username.className = 'author may-blank id-'.concat(parsedData.author_fullname);
-        tagline.appendChild(username);
+        tagline.replaceChild(username, em);
         $(username).hide().fadeIn(500);
-        let span = document.createElement('span');
-        span.className = 'userattrs';
-        tagline.appendChild(span);
         
         let bodytext = document.createRange().createContextualFragment(SnuOwnd.getParser().render(parsedData.body));
         let div = document.createElement('div');
