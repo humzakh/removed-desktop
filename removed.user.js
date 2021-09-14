@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [removed]
 // @author       Humzaman
-// @version      0.3.5
+// @version      0.3.6
 // @description  View [removed] and [deleted] comments on reddit.
 // @icon         https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png
 // @downloadURL  https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js
@@ -17,7 +17,19 @@
 const unremoveColor = '#952d2d';
 const loaderStyle = document.createElement('style');
 loaderStyle.type = 'text/css';
-loaderStyle.innerHTML = '.loading-bar { background-color: #eee; background-image: linear-gradient(-45deg, rgba(149, 45, 45, .6) 25%, rgba(149, 45, 45, .0) 25%, rgba(149, 45, 45, .0) 50%, rgba(149, 45, 45, .6) 50%, rgba(149, 45, 45, .6) 75%, rgba(149, 45, 45, .0) 75%, rgba(149, 45, 45, .0)) !important; background-size: 32px 32px !important; background-repeat: repeat !important; transition: background-position 60000s linear !important; background-position: 4000000px !important; }';
+loaderStyle.innerHTML = '.loading-bar { background-color: #eee; \
+                                        background-image: linear-gradient( -45deg, \
+                                                                           rgba(149, 45, 45, .6) 25%, \
+                                                                           rgba(149, 45, 45, .0) 25%, \
+                                                                           rgba(149, 45, 45, .0) 50%, \
+                                                                           rgba(149, 45, 45, .6) 50%, \
+                                                                           rgba(149, 45, 45, .6) 75%, \
+                                                                           rgba(149, 45, 45, .0) 75%, \
+                                                                           rgba(149, 45, 45, .0) ) !important; \
+                                        background-size: 32px 32px !important; \
+                                        background-repeat: repeat !important; \
+                                        transition: background-position 60000s linear !important; \
+                                        background-position: 4000000px !important; }';
 document.getElementsByTagName('head')[0].appendChild(loaderStyle);
 
 // listen for new comments (RES neverEndingComments)
@@ -46,21 +58,33 @@ function addMagicLink(commentObj) {
   }
 }
 
-// fetch data from Pushshift, parse, and display
+// fetch archived data from Pushshift, parse, and display
 function fetchData(commentObj) {
   let tagline = commentObj.getElementsByClassName('tagline')[0];
   let usertextbody = commentObj.getElementsByClassName('usertext-body')[0];
   $(usertextbody).toggleClass('loading-bar');
 
-  let prmlnksplit = commentObj.dataset.permalink.split('/');
-  let pushshiftUrl = 'https://api.pushshift.io/reddit/search/comment/?ids='.concat(prmlnksplit[prmlnksplit.length-2]);
+  const prmlnksplit = commentObj.dataset.permalink.split('/');
+  //Array(8) [ "", "r", "{subreddit}", "comments", "{link_id}", "{link_title}", "{comment_id}", "" ]
+  const subreddit = prmlnksplit[2];
+  const link_id = prmlnksplit[4];
+  const comment_id = prmlnksplit[6];
+  const pushshiftUrl = 'https://api.pushshift.io/reddit/search/comment/?subreddit='+subreddit+'&link_id=t3_'+link_id+'&id='+comment_id+'&size=100';
   
   fetch(pushshiftUrl)
   .then((response) => {
     return response.json();
   })
   .then((data) => {
-    let parsedData = data.data[0];
+    let returnedJson = data.data;
+    var parsedData = null;
+
+    for(var i = 0; i < returnedJson.length; i++) { // find the right comment
+      if (returnedJson[i].id === comment_id) {
+        parsedData = returnedJson[i];
+        break;
+      }
+    }
     
     if (parsedData.length === 0) {
       throw 'No data found. Manually throwing error.';
@@ -103,18 +127,16 @@ function fetchData(commentObj) {
       }
     }
   })
-  .catch((error) => {
-    $(usertextbody).toggleClass('loading-bar');
-    console.error(error);
-    
-    let p = usertextbody.getElementsByTagName('p')[0];
-    p.innerHTML = SnuOwnd.getParser().render('~~'.concat(p.innerHTML).concat('~~'));
+  .catch((error) => { $(usertextbody).toggleClass('loading-bar');
+                      console.error(error);
 
-    let bodytext = document.createTextNode('[no archived data found]');
-    let div = document.createElement('div');
-    div.className = 'md';
-    div.appendChild(bodytext);
-    usertextbody.appendChild(div);
-    $(div).hide().fadeIn(500);
-  });
+                      let p = usertextbody.getElementsByTagName('p')[0];
+                      p.innerHTML = SnuOwnd.getParser().render('~~'.concat(p.innerHTML).concat('~~'));
+
+                      let bodytext = document.createTextNode('[no archived data found]');
+                      let div = document.createElement('div');
+                      div.className = 'md';
+                      div.appendChild(bodytext);
+                      usertextbody.appendChild(div);
+                      $(div).hide().fadeIn(500); });
 }
