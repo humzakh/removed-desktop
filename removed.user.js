@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [removed]
 // @author       Humzaman
-// @version      0.3.6
+// @version      0.3.8
 // @description  View [removed] and [deleted] comments on reddit.
 // @icon         https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png
 // @downloadURL  https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js
@@ -39,7 +39,7 @@ var deletedComments = document.querySelectorAll('.deleted.comment');
 for (let i = 0; i < deletedComments.length; i++) { addMagicLink(deletedComments[i]); }
 
 // add unremove link to deleted comments
-function addMagicLink(commentObj) { 
+function addMagicLink(commentObj) {
   let ul = commentObj.getElementsByClassName('flat-list buttons')[0];
 
   if (!ul.classList.contains('unremove_li')) {
@@ -48,12 +48,12 @@ function addMagicLink(commentObj) {
     a.textContent = 'unremove';
     a.setAttribute('href', 'javascript:void(0)');
     a.style.color = unremoveColor;
-  
+
     let li = document.createElement('li');
     li.setAttribute('class', 'unremove_li');
     li.onclick = function(f) { return function() { this.style.display = 'none'; fetchData(f); }; }(commentObj);
     li.appendChild(a);
-    ul.appendChild(li);
+    ul.prepend(li);
     $(li).hide().fadeIn(500);
   }
 }
@@ -69,29 +69,21 @@ function fetchData(commentObj) {
   const subreddit = prmlnksplit[2];
   const link_id = prmlnksplit[4];
   const comment_id = prmlnksplit[6];
-  const pushshiftUrl = 'https://api.pushshift.io/reddit/search/comment/?subreddit='+subreddit+'&link_id=t3_'+link_id+'&id='+comment_id+'&size=100';
-  
+  const pushshiftUrl = 'https://api.pushshift.io/reddit/search/comment/?ids='+comment_id;
   fetch(pushshiftUrl)
   .then((response) => {
     return response.json();
   })
   .then((data) => {
     let returnedJson = data.data;
-    var parsedData = null;
+    var parsedData = returnedJson[0];
 
-    for(var i = 0; i < returnedJson.length; i++) { // find the right comment
-      if (returnedJson[i].id === comment_id) {
-        parsedData = returnedJson[i];
-        break;
-      }
-    }
-    
     if (parsedData.length === 0) {
       throw 'No data found. Manually throwing error.';
     }
     else {
       $(usertextbody).toggleClass('loading-bar');
-      
+
       let p = usertextbody.getElementsByTagName('p')[0];
       p.innerHTML = SnuOwnd.getParser().render('~~'.concat(p.innerHTML).concat('~~'));
 
@@ -103,7 +95,7 @@ function fetchData(commentObj) {
         usertextbody.appendChild(div);
         $(div).hide().fadeIn(500);
       }
-      else { 
+      else {
       	let em = tagline.querySelector('em'); // username text that says [deleted]
       	let span = document.createElement('span');
         span.className = 'userattrs';
@@ -117,12 +109,12 @@ function fetchData(commentObj) {
         username.className = 'author may-blank id-'.concat(parsedData.author_fullname);
         tagline.replaceChild(username, em);
         $(username).hide().fadeIn(500);
-        
+
         let bodytext = document.createRange().createContextualFragment(SnuOwnd.getParser().render(parsedData.body));
         let div = document.createElement('div');
         div.className = 'md';
         div.appendChild(bodytext);
-        usertextbody.appendChild(div); 
+        usertextbody.appendChild(div);
         $(div).hide().fadeIn(500);
       }
     }
@@ -130,13 +122,14 @@ function fetchData(commentObj) {
   .catch((error) => { $(usertextbody).toggleClass('loading-bar');
                       console.error(error);
 
-                      let p = usertextbody.getElementsByTagName('p')[0];
-                      p.innerHTML = SnuOwnd.getParser().render('~~'.concat(p.innerHTML).concat('~~'));
+                      //let p = usertextbody.getElementsByTagName('p')[0];
+                      //p.innerHTML = SnuOwnd.getParser().render('~~'.concat(p.innerHTML).concat('~~'));
 
                       let bodytext = document.createTextNode('[no archived data found]');
                       let div = document.createElement('div');
                       div.className = 'md';
                       div.appendChild(bodytext);
                       usertextbody.appendChild(div);
-                      $(div).hide().fadeIn(500); });
+                      $(div).hide().fadeIn(500);
+                      addMagicLink(commentObj);});
 }
