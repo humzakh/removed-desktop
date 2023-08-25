@@ -1,6 +1,13 @@
 # [removed] for desktop <img src="https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png" width="90px" align="left">
 A userscript to view [removed] and [deleted] comments on reddit.
 
+----
+### NOTE: Due to reddit's <a href="https://reddit.com/134tjpe">API changes</a> restricting public access to Pushshift data from 05/01/2023 onward, THIS APP IS NO LONGER FUNCTIONAL.
+
+This repo will be archived as read-only.
+----
+\
+\
 Unremoves comments using archived data from pushshift.io, and displays the comment inline.
 
 <a href="https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js">Direct link to userscript</a>
