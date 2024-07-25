@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [removed]
 // @author       Humzaman
-// @version      0.3.8
+// @version      0.3.9
 // @description  View [removed] and [deleted] comments on reddit.
 // @icon         https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png
 // @downloadURL  https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js
@@ -64,12 +64,12 @@ function fetchData(commentObj) {
   let usertextbody = commentObj.getElementsByClassName('usertext-body')[0];
   $(usertextbody).toggleClass('loading-bar');
 
-  const prmlnksplit = commentObj.dataset.permalink.split('/');
+  const splitPermalink = commentObj.dataset.permalink.split('/');
   //Array(8) [ "", "r", "{subreddit}", "comments", "{link_id}", "{link_title}", "{comment_id}", "" ]
-  const subreddit = prmlnksplit[2];
-  const link_id = prmlnksplit[4];
-  const comment_id = prmlnksplit[6];
-  const pushshiftUrl = 'https://api.pushshift.io/reddit/search/comment/?ids='+comment_id;
+  const subreddit = splitPermalink[2];
+  const link_id = splitPermalink[4];
+  const comment_id = splitPermalink[6];
+  const pushshiftUrl = 'https://api.pullpush.io/reddit/comment/search/?ids='+comment_id;
   fetch(pushshiftUrl)
   .then((response) => {
     return response.json();
