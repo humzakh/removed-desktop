@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [removed]
-// @author       Humzaman
-// @version      0.3.9
+// @author       humzakh
+// @version      0.4.0
 // @description  View [removed] and [deleted] comments on reddit.
 // @icon         https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png
 // @downloadURL  https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js
@@ -58,7 +58,7 @@ function addMagicLink(commentObj) {
   }
 }
 
-// fetch archived data from Pushshift, parse, and display
+// fetch archived data from PullPush, parse, and display
 function fetchData(commentObj) {
   let tagline = commentObj.getElementsByClassName('tagline')[0];
   let usertextbody = commentObj.getElementsByClassName('usertext-body')[0];
@@ -69,20 +69,26 @@ function fetchData(commentObj) {
   const subreddit = splitPermalink[2];
   const link_id = splitPermalink[4];
   const comment_id = splitPermalink[6];
-  const pushshiftUrl = 'https://api.pullpush.io/reddit/comment/search/?ids='+comment_id;
-  fetch(pushshiftUrl)
+  const pullpushUrl = 'https://api.pullpush.io/reddit/comment/search/?ids='+comment_id;
+  fetch(pullpushUrl)
   .then((response) => {
     return response.json();
   })
   .then((data) => {
     let returnedJson = data.data;
-    var parsedData = returnedJson[0];
 
-    if (parsedData.length === 0) {
+    if (returnedJson.length === 0) {
       throw 'No data found. Manually throwing error.';
     }
     else {
       $(usertextbody).toggleClass('loading-bar');
+
+      for (let i = 0; i < returnedJson.length; i++) {
+        var parsedData = returnedJson[i]
+        if (parsedData.author !== '[deleted]') {
+          break;
+        }
+      }
 
       let p = usertextbody.getElementsByTagName('p')[0];
       p.innerHTML = SnuOwnd.getParser().render('~~'.concat(p.innerHTML).concat('~~'));
