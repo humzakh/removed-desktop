@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [removed]
 // @author       humzakh
-// @version      0.4.0
+// @version      0.4.1
 // @description  View [removed] and [deleted] comments on reddit.
 // @icon         https://user-images.githubusercontent.com/13255511/74567142-b74a0380-4f3a-11ea-990b-c7d30f3fa078.png
 // @downloadURL  https://raw.githubusercontent.com/Humzaman/removed-desktop/master/removed.user.js
@@ -58,7 +58,7 @@ function addMagicLink(commentObj) {
   }
 }
 
-// fetch archived data from PullPush, parse, and display
+// fetch archived data, parse, and display
 function fetchData(commentObj) {
   let tagline = commentObj.getElementsByClassName('tagline')[0];
   let usertextbody = commentObj.getElementsByClassName('usertext-body')[0];
@@ -69,9 +69,8 @@ function fetchData(commentObj) {
   const subreddit = splitPermalink[2];
   const link_id = splitPermalink[4];
   const comment_id = splitPermalink[6];
-  const pullpushUrl = 'https://api.pullpush.io/reddit/comment/search/?ids='+comment_id;
-  fetch(pullpushUrl)
-  .then((response) => {
+  const unremoveUrl = 'https://arctic-shift.photon-reddit.com/api/comments/ids?ids='+comment_id;
+  fetch(unremoveUrl).then((response) => {
     return response.json();
   })
   .then((data) => {
